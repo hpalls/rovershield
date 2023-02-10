@@ -1,4 +1,4 @@
-namespace rovershield {
+namespace motor {
     const PCA9685_ADDRESS = 0x40
     const MODE1 = 0x00
     const MODE2 = 0x01
@@ -58,10 +58,10 @@ namespace rovershield {
         S2 = 0x07,
         S3 = 0x06,
         S4 = 0x05,
-        S5 = 0x04,
-        S6 = 0x03,
-        S7 = 0x02,
-        S8 = 0x01
+     //   S5 = 0x04,
+      //  S6 = 0x03,
+      //  S7 = 0x02,
+      //  S8 = 0x01
     }
 
     /**
@@ -71,7 +71,9 @@ namespace rovershield {
         M1 = 0x1,
         M2 = 0x2,
         M3 = 0x3,
-        M4 = 0x4
+        M4 = 0x4,
+        M5 = 0x5,
+        M6 = 0x6
     }
 
     /**
@@ -104,9 +106,9 @@ namespace rovershield {
     }
 
     function i2cCmd(addr: number, value: number) {
-        let buf = pins.createBuffer(1)
-        buf[0] = value
-        pins.i2cWriteBuffer(addr, buf)
+        let buf2 = pins.createBuffer(1)
+        buf2[0] = value
+        pins.i2cWriteBuffer(addr, buf2)
     }
 
     function i2cRead(addr: number, reg: number) {
@@ -141,13 +143,13 @@ namespace rovershield {
         if (channel < 0 || channel > 15)
             return;
 
-        let buf = pins.createBuffer(5);
-        buf[0] = LED0_ON_L + 4 * channel;
-        buf[1] = on & 0xff;
-        buf[2] = (on >> 8) & 0xff;
-        buf[3] = off & 0xff;
-        buf[4] = (off >> 8) & 0xff;
-        pins.i2cWriteBuffer(PCA9685_ADDRESS, buf);
+        let buf3 = pins.createBuffer(5);
+        buf3[0] = LED0_ON_L + 4 * channel;
+        buf3[1] = on & 0xff;
+        buf3[2] = (on >> 8) & 0xff;
+        buf3[3] = off & 0xff;
+        buf3[4] = (off >> 8) & 0xff;
+        pins.i2cWriteBuffer(PCA9685_ADDRESS, buf3);
     }
 
 
@@ -230,7 +232,7 @@ namespace rovershield {
 
     /**
      * Execute a motor
-     * M1~M4.
+     * M1~M6.
      * speed(0~255).
     */
     //% weight=90
@@ -249,7 +251,7 @@ namespace rovershield {
         if (speed <= -4096) {
             speed = -4095
         }
-        if (index > 4 || index <= 0)
+        if (index > 6 || index <= 0)
             return
         let pn = (4 - index) * 2
         let pp = (4 - index) * 2 + 1
@@ -324,12 +326,12 @@ namespace rovershield {
         if (degree == 0) {
             return;
         }
-        let Degree = Math.abs(degree);
-        Degree = Degree * direction;
+        let Degree2 = Math.abs(degree);
+        Degree2 = Degree2 * direction;
         //setFreq(100);
-        setStepper_28(index, Degree > 0);
-        Degree = Math.abs(Degree);
-        basic.pause((1000 * Degree) / 360);
+        setStepper_28(index, Degree2 > 0);
+        Degree2 = Math.abs(Degree2);
+        basic.pause((1000 * Degree2) / 360);
         if (index == 1) {
             motorStop(1)
             motorStop(2)
@@ -352,8 +354,8 @@ namespace rovershield {
         if (turn == 0) {
             return;
         }
-        let degree = turn * 360;
-        stepperDegree_28(index, direction, degree);
+        let degree2 = turn * 360;
+        stepperDegree_28(index, direction, degree2);
     }
 
     /**
@@ -371,36 +373,36 @@ namespace rovershield {
         let timeout1 = 0;
         let timeout2 = 0;
         let Degree1 = Math.abs(degree1);
-        let Degree2 = Math.abs(degree2);
+        let Degree22 = Math.abs(degree2);
 
         if (stepper == 1) {  // 42 stepper
-            if (Degree1 == 0 && Degree2 == 0) {
+            if (Degree1 == 0 && Degree22 == 0) {
                 setStepper_42(0x01, direction1 > 0);
                 setStepper_42(0x02, direction2 > 0);
-            } else if ((Degree1 == 0) && (Degree2 > 0)) {
-                timeout1 = (50000 * Degree2) / (360 * 100)
+            } else if ((Degree1 == 0) && (Degree22 > 0)) {
+                timeout1 = (50000 * Degree22) / (360 * 100)
                 setStepper_42(0x01, direction1 > 0);
                 setStepper_42(0x02, direction2 > 0);
                 basic.pause(timeout1);
                 motorStop(3); motorStop(4);
-            } else if ((Degree2 == 0) && (Degree1 > 0)) {
+            } else if ((Degree22 == 0) && (Degree1 > 0)) {
                 timeout1 = (50000 * Degree1) / (360 * 100)
                 setStepper_42(0x01, direction1 > 0);
                 setStepper_42(0x02, direction2 > 0);
                 basic.pause(timeout1);
                 motorStop(1); motorStop(2);
-            } else if ((Degree2 > Degree1)) {
+            } else if ((Degree22 > Degree1)) {
                 timeout1 = (50000 * Degree1) / (360 * 100)
-                timeout2 = (50000 * (Degree2 - Degree1)) / (360 * 100)
+                timeout2 = (50000 * (Degree22 - Degree1)) / (360 * 100)
                 setStepper_42(0x01, direction1 > 0);
                 setStepper_42(0x02, direction2 > 0);
                 basic.pause(timeout1);
                 motorStop(1); motorStop(2);
                 basic.pause(timeout2);
                 motorStop(3); motorStop(4);
-            } else if ((Degree2 < Degree1)) {
-                timeout1 = (50000 * Degree2) / (360 * 100)
-                timeout2 = (50000 * (Degree1 - Degree2)) / (360 * 100)
+            } else if ((Degree22 < Degree1)) {
+                timeout1 = (50000 * Degree22) / (360 * 100)
+                timeout2 = (50000 * (Degree1 - Degree22)) / (360 * 100)
                 setStepper_42(0x01, direction1 > 0);
                 setStepper_42(0x02, direction2 > 0);
                 basic.pause(timeout1);
@@ -409,33 +411,33 @@ namespace rovershield {
                 motorStop(1); motorStop(2);
             }
         } else if (stepper == 2) {
-            if (Degree1 == 0 && Degree2 == 0) {
+            if (Degree1 == 0 && Degree22 == 0) {
                 setStepper_28(0x01, direction1 > 0);
                 setStepper_28(0x02, direction2 > 0);
-            } else if ((Degree1 == 0) && (Degree2 > 0)) {
-                timeout1 = (50000 * Degree2) / (360 * 100)
+            } else if ((Degree1 == 0) && (Degree22 > 0)) {
+                timeout1 = (50000 * Degree22) / (360 * 100)
                 setStepper_28(0x01, direction1 > 0);
                 setStepper_28(0x02, direction2 > 0);
                 basic.pause(timeout1);
                 motorStop(3); motorStop(4);
-            } else if ((Degree2 == 0) && (Degree1 > 0)) {
+            } else if ((Degree22 == 0) && (Degree1 > 0)) {
                 timeout1 = (50000 * Degree1) / (360 * 100)
                 setStepper_28(0x01, direction1 > 0);
                 setStepper_28(0x02, direction2 > 0);
                 basic.pause(timeout1);
                 motorStop(1); motorStop(2);
-            } else if ((Degree2 > Degree1)) {
+            } else if ((Degree22 > Degree1)) {
                 timeout1 = (50000 * Degree1) / (360 * 100)
-                timeout2 = (50000 * (Degree2 - Degree1)) / (360 * 100)
+                timeout2 = (50000 * (Degree22 - Degree1)) / (360 * 100)
                 setStepper_28(0x01, direction1 > 0);
                 setStepper_28(0x02, direction2 > 0);
                 basic.pause(timeout1);
                 motorStop(1); motorStop(2);
                 basic.pause(timeout2);
                 motorStop(3); motorStop(4);
-            } else if ((Degree2 < Degree1)) {
-                timeout1 = (50000 * Degree2) / (360 * 100)
-                timeout2 = (50000 * (Degree1 - Degree2)) / (360 * 100)
+            } else if ((Degree22 < Degree1)) {
+                timeout1 = (50000 * Degree22) / (360 * 100)
+                timeout2 = (50000 * (Degree1 - Degree22)) / (360 * 100)
                 setStepper_28(0x01, direction1 > 0);
                 setStepper_28(0x02, direction2 > 0);
                 basic.pause(timeout1);
@@ -461,12 +463,12 @@ namespace rovershield {
             return;
         }
         let degree1 = trun1 * 360;
-        let degree2 = trun2 * 360;
+        let degree22 = trun2 * 360;
 
         if (stepper == 1) {
-            stepperDegreeDual_42(stepper, direction1, degree1, direction2, degree2);
+            stepperDegreeDual_42(stepper, direction1, degree1, direction2, degree22);
         } else if (stepper == 2) {
-            stepperDegreeDual_42(stepper, direction1, degree1, direction2, degree2);
+            stepperDegreeDual_42(stepper, direction1, degree1, direction2, degree22);
         } else {
 
         }
