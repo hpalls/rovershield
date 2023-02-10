@@ -492,7 +492,7 @@ namespace motor {
     //% weight=10
     //% blockId=motor_motorStopAll block="Motor Stop All"
     export function motorStopAll(): void {
-        for (let idx = 1; idx <= 4; idx++) {
+        for (let idx = 1; idx <= 6; idx++) {
             motorStop(idx);
         }
     }
