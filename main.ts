@@ -23,7 +23,7 @@ namespace rovershield {
         S2 = 0x07,
         S3 = 0x06,
         S4 = 0x05,
-     //   S5 = 0x04,
+      //  S5 = 0x04,
       //  S6 = 0x03,
       //  S7 = 0x02,
       //  S8 = 0x01
