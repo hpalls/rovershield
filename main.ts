@@ -22,7 +22,7 @@ namespace rovershield {
         S1 = 0x08,
         S2 = 0x07,
         S3 = 0x06,
-        S4 = 0x05,
+        S4 = 0x05
       //  S5 = 0x04,
       //  S6 = 0x03,
       //  S7 = 0x02,
@@ -150,8 +150,8 @@ namespace rovershield {
         }
         if (index > 6 || index <= 0)
             return
-        let pn = (4 - index) * 2
-        let pp = (4 - index) * 2 + 1
+        let pn = (6 - index) * 2
+        let pp = (6 - index) * 2 + 1
         if (speed >= 0) {
             setPwm(pp, 0, speed)
             setPwm(pn, 0, 0)
