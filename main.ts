@@ -124,7 +124,7 @@ namespace rovershield {
         // 50hz
         let v_us = (degree * 1800 / 180 + 600) // 0.6ms ~ 2.4ms
         let value = v_us * 4096 / 20000
-        setPwm(index + 4, 0, value)
+        setPwm(index + 7, 0, value)
     }
 
     /**
