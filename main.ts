@@ -169,8 +169,8 @@ namespace rovershield {
     //% blockId=rovershield_motorStop block="Motor stop|%index"
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2 
     export function motorStop(index: Motors) {
-        setPwm((4 - index) * 2, 0, 0);
-        setPwm((4 - index) * 2 + 1, 0, 0);
+        setPwm((6 - index) * 2, 0, 0);
+        setPwm((6 - index) * 2 + 1, 0, 0);
     }
 
     /**
