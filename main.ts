@@ -23,22 +23,22 @@ namespace rovershield {
         S2 = 0x07,
         S3 = 0x06,
         S4 = 0x05,
-      S5 = 0x04,
-      S6 = 0x03,
-      S7 = 0x02,
-      S8 = 0x01
+     // S5 = 0x04,
+     // S6 = 0x03,
+     // S7 = 0x02,
+     // S8 = 0x01
     }
 
     /**
      * The user selects the 4-way dc motor.
      */
     export enum Motors {
-        M1 = 0x1,
-        M2 = 0x2,
-        M3 = 0x3,
-        M4 = 0x4,
-        M5 = 0x5,
-        M6 = 0x6
+        M1 = 0x3,
+        M2 = 0x4,
+        M3 = 0x5,
+        M4 = 0x6,
+        M5 = 0x2,
+        M6 = 0x1
     }
 
     /**
@@ -124,7 +124,7 @@ namespace rovershield {
         // 50hz
         let v_us = (degree * 1800 / 180 + 600) // 0.6ms ~ 2.4ms
         let value = v_us * 4096 / 20000
-        setPwm(index + 7, 0, value)
+        setPwm(index + 4, 0, value)
     }
 
     /**
@@ -150,8 +150,8 @@ namespace rovershield {
         }
         if (index > 6 || index <= 0)
             return
-        let pn = (4 - index) * 2
-        let pp = (4 - index) * 2 + 1
+        let pn = (6 - index) * 2
+        let pp = (6 - index) * 2 + 1
         if (speed >= 0) {
             setPwm(pp, 0, speed)
             setPwm(pn, 0, 0)
@@ -169,8 +169,8 @@ namespace rovershield {
     //% blockId=rovershield_motorStop block="Motor stop|%index"
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2 
     export function motorStop(index: Motors) {
-        setPwm((4 - index) * 2, 0, 0);
-        setPwm((4 - index) * 2 + 1, 0, 0);
+        setPwm((6 - index) * 2, 0, 0);
+        setPwm((6 - index) * 2 + 1, 0, 0);
     }
 
     /**
