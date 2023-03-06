@@ -36,7 +36,7 @@ namespace rovershield {
         M1 = 0x3,
         M2 = 0x4,
         M3 = 0x5,
-        M4 = 0x6,
+        M4 = 0x7,
         M5 = 0x2,
         M6 = 0x1
     }
