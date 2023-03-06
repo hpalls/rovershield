@@ -150,6 +150,8 @@ namespace rovershield {
         }
         if (index > 6 || index <= 0)
             return
+        if(index == 6)
+        {    
         let pn = (6 - index) * 2
         let pp = (6 - index) * 2 + 1
         if (speed >= 0) {
@@ -159,6 +161,20 @@ namespace rovershield {
             setPwm(pp, 0, 0)
             setPwm(pn, 0, -speed)
         }
+        }
+
+        else {
+            let pp = (6 - index) * 2
+            let pn = (6 - index) * 2 + 1
+            if (speed >= 0) {
+                setPwm(pp, 0, speed)
+                setPwm(pn, 0, 0)
+            } else {
+                setPwm(pp, 0, 0)
+                setPwm(pn, 0, -speed)
+            }
+        }
+
     }
 
 
