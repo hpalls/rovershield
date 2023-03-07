@@ -16,21 +16,18 @@ namespace rovershield {
     const ALL_LED_OFF_H = 0xFD
 
     /**
-     * The user can select the 8 steering gear controller.
+     * Velg servo
      */
     export enum Servos {
         S1 = 0x08,
         S2 = 0x07,
         S3 = 0x06,
         S4 = 0x05,
-     // S5 = 0x04,
-     // S6 = 0x03,
-     // S7 = 0x02,
-     // S8 = 0x01
+
     }
 
     /**
-     * The user selects the 4-way dc motor.
+     * Velg motor
      */
     export enum Motors {
         M1 = 0x3,
@@ -42,7 +39,7 @@ namespace rovershield {
     }
 
     /**
-     * The user defines the motor rotation direction.
+     * *Retning motorer
      */
     export enum Dir {
         //% blockId="CW" block="CW"
