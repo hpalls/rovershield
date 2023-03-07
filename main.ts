@@ -147,7 +147,8 @@ namespace rovershield {
         }
         if (index > 6 || index <= 0)
             return
-        if(index == 6)
+        
+        if(index == 6) //Reversering M4 (Feil i PCB_01 V1.0)
         {    
         let pn = (6 - index) * 2
         let pp = (6 - index) * 2 + 1
@@ -176,7 +177,7 @@ namespace rovershield {
 
 
     /**
-     * Stop the dc motor.
+     * Stopp motor
     */
     //% weight=20
     //% blockId=rovershield_motorStop block="Motor stop|%index"
@@ -187,7 +188,7 @@ namespace rovershield {
     }
 
     /**
-     * Stop all motors
+     * Stopp alle motorer
     */
  
     //% weight=10
